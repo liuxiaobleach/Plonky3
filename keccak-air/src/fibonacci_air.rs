@@ -3,7 +3,6 @@ use core::borrow::{Borrow, BorrowMut};
 use p3_air::{Air, AirBuilder, BaseAir};
 use p3_field::AbstractField;
 use p3_matrix::{Matrix};
-use crate::KeccakCols;
 
 pub const NUM_FIBONACCI_COLS: usize = 3;
 

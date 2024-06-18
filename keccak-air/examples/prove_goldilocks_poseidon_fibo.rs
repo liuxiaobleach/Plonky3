@@ -4,15 +4,15 @@ use p3_challenger::DuplexChallenger;
 use p3_commit::ExtensionMmcs;
 use p3_dft::Radix2DitParallel;
 use p3_field::extension::BinomialExtensionField;
-use p3_field::Field;
+use p3_field::{AbstractField, Field};
 use p3_fri::{FriConfig, TwoAdicFriPcs};
 use p3_goldilocks::{Goldilocks, MdsMatrixGoldilocks};
-use p3_keccak_air::{FibonacciAir, generate_trace_rows, NUM_FIBONACCI_COLS};
+use p3_keccak_air::{FibonacciAir, NUM_FIBONACCI_COLS};
 use p3_merkle_tree::FieldMerkleTreeMmcs;
 use p3_poseidon::Poseidon;
 use p3_symmetric::{PaddingFreeSponge, TruncatedPermutation};
 use p3_uni_stark::{prove, verify, StarkConfig};
-use rand::{random, thread_rng};
+use rand::{thread_rng};
 use tracing_forest::util::LevelFilter;
 use tracing_forest::ForestLayer;
 use tracing_subscriber::layer::SubscriberExt;
@@ -69,14 +69,13 @@ fn main() -> Result<(), impl Debug> {
             values[i - 1][1] + values[i - 1][2],
         ]);
     }
-    let trace = RowMajorMatrix {
-        values: values
-            .into_iter()
-            .flatten()
-            .map(|x| Val::from_canonical_u64(x))
-            .collect::<Vec<_>>(),
-        width: NUM_FIBONACCI_COLS,
-    };
+
+
+    let trace = RowMajorMatrix::new(values
+                            .into_iter()
+                            .flatten()
+                            .map(|x| Val::from_canonical_u64(x))
+                            .collect::<Vec<_>>(), NUM_FIBONACCI_COLS);
 
     let fri_config = FriConfig {
         log_blowup: 1,
