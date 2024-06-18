@@ -70,12 +70,13 @@ fn main() -> Result<(), impl Debug> {
         ]);
     }
 
-
-    let trace = RowMajorMatrix::new(values
-                            .into_iter()
-                            .flatten()
-                            .map(|x| Val::from_canonical_u64(x))
-                            .collect::<Vec<_>>(), NUM_FIBONACCI_COLS);
+    let trace = RowMajorMatrix::new(
+        values
+            .into_iter()
+            .flatten()
+            .map(|x| Val::from_canonical_u64(x))
+            .collect::<Vec<_>>(),
+        NUM_FIBONACCI_COLS);
 
     let fri_config = FriConfig {
         log_blowup: 1,
